@@ -101,7 +101,22 @@ def p_assign(p):
     '''assign : ID '=' boolean '''
     p[0] = ('t_assign', p[1], p[3])
 
+#IF
+def p_if(p):
+    '''if : IF block '{' statement '}' elif '''
+    p[0] = ('t_if',p[2],p[4])
 
+def p_elif(p):
+    '''elif : ELIF block '{' statement '}' elif '''
+    if len(p) == 7:
+        p[0] = ('t_elif',p[2],p[4])
+
+def p_else(p):
+    '''elif : ELSE '{' statement '}' '''
+    if len(p) == 4:
+        p[0] = ('t_if',p[3])
+    else:
+        p_empty(p)
 #Boolean
 def p_boolean_or(p):
     '''boolean : boolean OR boolterm'''
