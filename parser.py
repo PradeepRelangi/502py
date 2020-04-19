@@ -100,7 +100,16 @@ def p_assign_string(p):
 def p_assign(p):
     '''assign : ID '=' boolean '''
     p[0] = ('t_assign', p[1], p[3])
+def p_assign_funcall(p):
+    '''assign : ID '=' funcall '''
+    p[0] = ('t_assign', p[1], p[3])
 
+#Unary
+
+#Funcall
+def p_funcall(p):
+    '''funcall : ID '(' ')' '''
+    p[0] = ('p_funcall',p[1])
 #IF
 def p_if(p):
     '''if : IF block '{' statement '}' elif '''
@@ -112,11 +121,26 @@ def p_elif(p):
         p[0] = ('t_elif',p[2],p[4])
 
 def p_else(p):
-    '''elif : ELSE '{' statement '}' '''
+    '''elif : ELSE '{' statement '}'
+                | empty '''
     if len(p) == 4:
         p[0] = ('t_if',p[3])
     else:
         p_empty(p)
+
+def p_while(p):
+    '''while : WHILE block '{' statement '}' '''
+    p[0] = ('t_while',p[2],p[4])
+
+def p_for(p):
+    '''for : FOR '(' initialization ';' block ';' assign ')' '{' statement '}'
+        |for '(' initialization ';' block ';' unary ')' '{' statement '}'
+        |for ID IN range '(' expression ',' expression ')' '{' block '}' '''
+    if len(p)== 10:
+        p[0] = ('t_for',p[3],p[5],p[7],p[10])
+    elif len(p)== 12:
+        p[0] = ('t_for',p[2],p[6],p[8],p[11])
+
 #Boolean
 def p_boolean_or(p):
     '''boolean : boolean OR boolterm'''
