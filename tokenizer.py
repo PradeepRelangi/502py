@@ -79,7 +79,7 @@ def t_newline(t):
 
 
 #literals
-literals = ['+','-','*','/','(',')','{','}','>','<','=','!',',']
+literals = ['+','-','*','/','(',')','{','}','>','<','=','!',',',';']
 
 
 # A string containing ignored characters (spaces and tabs)
@@ -105,7 +105,26 @@ def test(data,lexer):
 
 
 
-# data = '''var hello=3;
-#     var forget;'''
-# Tokens = test(data,lex.lex())
-# print(Tokens)
+data = '''    
+    fun fact(x,y){
+    z = x+y;
+    }
+    var hello=3;
+    var forget;
+    hello = "hi people";
+    if hello+3 > 5+4 or forget
+    {
+        var x = 3
+        var y = true;
+    }
+    elif y==3
+    {
+        while z==3
+        {
+            x++;
+            y++;
+            out("rohith is good guy",x,y);
+        }
+    }'''
+Tokens = test(data,lex.lex())
+print(Tokens)
