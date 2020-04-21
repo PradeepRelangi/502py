@@ -192,13 +192,16 @@ class SyntaxTree:
             '''plist : pstat ',' plist
                      | pstat'''
             if len(p)==4:
-                p[0] = (p[1],p[3])
+                p[0] = ('plist',p[1],p[3])
             else:
-                p[0] = p[1]
-        def p_pstat_str(p):
-            '''pstat : STRING
+                p[0] = ('plist',p[1])
+        def p_pstat(p):
+            '''pstat : string
                      | boolean'''
             p[0] = p[1]
+        def p_stat_str(p):
+            '''string : STRING'''
+            p[0] = ('t_string',p[1])
 
 
         #Boolean
@@ -207,25 +210,25 @@ class SyntaxTree:
             p[0] = ('t_or',p[1],p[3])
         def p_boolean(p):
             '''boolean : boolterm'''
-            p[0] = p[1]
+            p[0] = ('boolean',p[1])
         def p_boolean_and(p):
             '''boolterm : boolterm AND boolterm1'''
             p[0] = ('t_and',p[1],p[3])
         def p_boolterm(p):
             '''boolterm : boolterm1'''
-            p[0] = p[1]
+            p[0] = ('boolterm',p[1])
         def p_boolean_not(p):
             '''boolterm1 : NOT boolterm2'''
             p[0] = ('t_not',p[2])
         def p_boolterm1(p):
             '''boolterm1 : boolterm2'''
-            p[0] = p[1]
+            p[0] = ('boolterm1',p[1])
         def p_boolean_condition(p):
             '''boolterm2 : condition'''
             p[0] = ('t_condition',p[1])
         def p_boolean_id(p):
             '''boolterm2 : expression'''
-            p[0] = p[1]
+            p[0] = ('boolterm2',p[1])
         def p_boolean_value(p):
             '''boolterm2 : FALSE
                          | TRUE '''
@@ -266,11 +269,11 @@ class SyntaxTree:
 
         def p_expression_minus(p):
             '''expression : expression '-' term'''
-            p[0] = ('t_plus',p[1],p[3])
+            p[0] = ('t_minus',p[1],p[3])
 
         def p_expression_term(p):
             '''expression : term'''
-            p[0] = p[1]
+            p[0] = ('expression',p[1])
 
         def p_term_times(p):
             '''term : term '*' factor'''
@@ -282,7 +285,7 @@ class SyntaxTree:
 
         def p_term_factor(p):
             'term : factor'
-            p[0] = p[1]
+            p[0] = ('term',p[1])
 
         def p_factor_id(p):
          'factor : ID'
