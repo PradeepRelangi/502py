@@ -103,26 +103,5 @@ def test(data,lexer):
 
 
 
-data = '''    
-    fun fact(x,y){
-    z = x+y;
-    }
-    var hello=3;
-    var forget;
-    hello = "hi people";
-    if hello+3 > 5+4 or forget
-    {
-        var x = 3
-        var y = true;
-    }
-    elif y==3
-    {
-        while z==3
-        {
-            x++;
-            y++;
-            out("rohith is good guy",x,y);
-        }
-    }'''
-Tokens = test(data,lex.lex())
-print(Tokens)
+#Tokens = test(data,lex.lex())
+#print(Tokens)

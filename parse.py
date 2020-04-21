@@ -105,7 +105,7 @@ class SyntaxTree:
         #Initialization
         def p_initialization_string(p):
             '''initialization : VARIABLE ID '=' STRING'''
-            p[0] = ('t_assign',p[2],('t_string',p[4]))
+            p[0] = ('t_initString',p[2],('t_string',p[4]))
         def p_initialization(p):
             '''initialization : VARIABLE ID '=' boolean'''
             p[0] = ('t_init', p[2], p[4])
@@ -309,5 +309,5 @@ class SyntaxTree:
         # Build the parser
         p = yacc.yacc()
         result = p.parse(data)
-        print(result)
+        #print(result)
         self.tree = result
