@@ -47,6 +47,30 @@ def eval_initialization(tree):
     elif tree[2][0] == 'boolean':
         val = eval_boolean(tree[2])
 
+#IF
+def eval_if(tree):
+    if tree[1] == True:
+        eval_block(tree)
+
+    else:
+        eval_elif(tree)
+
+def eval_elif(tree):
+    '''elif : ELSEIF  boolean  '{'  block  '}'  elif '''
+    if tree[0] == 't_elif':
+        if tree[1] == True:
+            eval_block(tree)
+
+        else:
+            eval_elif(tree)
+    else:
+        eval_else(tree)
+
+def eval_else(tree):
+    if tree[0] == 't_else':
+        eval_block(tree)
+    else:
+        pass
 
 
 
