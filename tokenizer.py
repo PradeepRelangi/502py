@@ -53,6 +53,7 @@ t_GTEQL = r'<='
 t_LTEQL = r'>='
 t_OR = r'\|\|'
 t_AND = r'&&'
+t_NOTEQL = r'!='
 
 
 # A regular expression rule with some action code

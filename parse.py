@@ -161,7 +161,7 @@ class SyntaxTree:
         def p_else(p):
             '''elif : ELSE  '{'  block  '}'
                         | empty '''
-            if len(p) == 4:
+            if len(p) == 5:
                 p[0] = ('t_else',p[3])
             else:
                 p[0] = ('empty')
@@ -218,7 +218,7 @@ class SyntaxTree:
             '''boolterm : boolterm1'''
             p[0] = ('boolterm',p[1])
         def p_boolean_not(p):
-            '''boolterm1 : NOT boolterm2'''
+            '''boolterm1 : '!' boolterm2'''
             p[0] = ('t_not',p[2])
         def p_boolterm1(p):
             '''boolterm1 : boolterm2'''
@@ -228,7 +228,7 @@ class SyntaxTree:
             p[0] = ('t_condition',p[1])
         def p_boolean_id(p):
             '''boolterm2 : expression'''
-            p[0] = ('boolterm2',p[1])
+            p[0] = ('t_expression',p[1])
         def p_boolean_value(p):
             '''boolterm2 : FALSE
                          | TRUE '''
