@@ -299,8 +299,9 @@ class SyntaxTree:
             '''factor : '(' expression ')' '''
             p[0] = ('t_para',p[2])
 
-
-
+        def p_ternay(p):
+            '''tenary : '(' boolean ')' '?' '(' expression ':' expression ')' '''
+            p[0] = ('t_unary',p[1],p[5],p[7])
 
         # Error rule for syntax errors
         def p_error(p):
