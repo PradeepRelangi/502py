@@ -295,13 +295,21 @@ class SyntaxTree:
          'factor : NUMBER'
          p[0] = ('t_num',p[1])
 
+        #def p_factor_num(p):
+         #   'factor : STRING'
+          #  p[0] = ('t_string')
+
         def p_factor_expr(p):
             '''factor : '(' expression ')' '''
             p[0] = ('t_para',p[2])
 
+        def p_factor_ternary(p):
+            '''factor : ternary'''
+            p[0] = p[1]
         def p_ternay(p):
-            '''tenary : '(' boolean ')' '?' '(' expression ':' expression ')' '''
-            p[0] = ('t_unary',p[1],p[5],p[7])
+            '''ternary : '('  boolean  ')'  '?'  '('  boolean  ':'  boolean ')' '''
+            p[0] = ('t_ternary',p[2],p[6],p[8])
+
 
         # Error rule for syntax errors
         def p_error(p):

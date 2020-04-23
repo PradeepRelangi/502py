@@ -341,8 +341,13 @@ def eval_multi(tree):
         val2 = eval_id(tree[2])
     elif tree[2][0]== 't_num':
         val2 = eval_num(tree[2])
+    elif tree[2][0]== 't_string':
+        val2 = eval_num(tree[2])
     elif tree[2][0] == 't_para':
         val2 = eval_para(tree[2])
+    elif tree[2][0] == 't_ternary':
+        val2 = eval_ternary(tree[2])
+
     return val1*val2
 
 
@@ -358,8 +363,12 @@ def eval_div(tree):
         val2 = eval_id(tree[2])
     elif tree[2][0]== 't_num':
         val2 = eval_num(tree[2])
+    elif tree[2][0]== 't_string':
+        val2 = eval_string(tree[2])
     elif tree[2][0] == 't_para':
         val2 = eval_para(tree[2])
+    elif tree[2][0] == 't_ternary':
+        val2 = eval_ternary(tree[2])
     return val1/val2
 
 def eval_term(tree):
@@ -367,8 +376,12 @@ def eval_term(tree):
         val = eval_id(tree[1])
     elif tree[1][0]== 't_num':
         val = eval_num(tree[1])
+    elif tree[1][0]== 't_string':
+        val = eval_string(tree[1])
     elif tree[1][0] == 't_para':
         val = eval_para(tree[1])
+    elif tree[1][0] == 't_ternary':
+        val = eval_ternary(tree[1])
     return val
 
 def eval_id(tree):
@@ -376,6 +389,8 @@ def eval_id(tree):
     return lookup(tree[1])
 def eval_num(tree):
     return tree[1]
+def eval_string(tree):
+    return tree[1][1:-1]
 
 def eval_para(tree):
     if tree[1][0]== 't_plus':
@@ -385,6 +400,24 @@ def eval_para(tree):
     elif tree[1][0]== 'expression':
         val = eval_expr(tree[1])
     return val
+
+def eval_ternary(tree):
+    if tree[1][0] == 't_or':
+        val = eval_or(tree[1])
+    elif tree[1][0] == 'boolean':
+        val = eval_boolean(tree[1])
+    if val:
+        if tree[2][0] == 't_or':
+            val1 = eval_or(tree[2])
+        elif tree[2][0] == 'boolean':
+            val1 = eval_boolean(tree[2])
+    else:
+        if tree[3][0] == 't_or':
+            val1 = eval_or(tree[3])
+        elif tree[3][0] == 'boolean':
+            val1 = eval_boolean(tree[3])
+    return val1
+
 
 def lookup(x):
     global variable_env
@@ -396,23 +429,18 @@ def lookup(x):
 
 
 data = '''
-var z = 3
-var ass = 3
-var x = (6+4*6)/6
-var y = false
-out("value of z: ",z)
-out("hello")
-if y{
-out("success ")
+var x
+var y = 6
+var z = "*"
+var k = "&"
+var x = ( y>5 ) ? (z : k)
+out("The pattern by ACE:")
+for(var i=0,i<5,i++){
+s = ""
+for(var j=0,j<5,j++){
+s=s+x
 }
-elif x>z&&z>x{
-out("success elif")
-}
-elif z!=x{
-out("else")
-}
-for i in range(z+x,z+x+x){
-out(i)
+out(s)
 }
 '''
 builder = SyntaxTree()
