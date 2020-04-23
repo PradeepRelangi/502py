@@ -430,10 +430,11 @@ def lookup(x):
 
 data = '''
 var x
-var y = 6
+var y = 4
 var z = "*"
-var k = "&"
-var x = ( y>5 ) ? (z : k)
+var k = "&" + "*"
+out("hi how are you: ",k," hello")
+var x = ( y>5 ) ? ( z : k )
 out("The pattern by ACE:")
 for(var i=0,i<5,i++){
 s = ""

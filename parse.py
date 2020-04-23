@@ -103,9 +103,10 @@ class SyntaxTree:
 
 
         #Initialization
-        def p_initialization_string(p):
-            '''initialization : VARIABLE ID '=' STRING'''
-            p[0] = ('t_initString',p[2],('t_string',p[4]))
+        #def p_initialization_string(p):
+         #   '''initialization : VARIABLE ID '=' STRING'''
+          #  p[0] = ('t_initString',p[2],('t_string',p[4]))
+
         def p_initialization(p):
             '''initialization : VARIABLE ID '=' boolean'''
             p[0] = ('t_init', p[2], p[4])
@@ -113,9 +114,10 @@ class SyntaxTree:
 
 
         #Assign
-        def p_assign_string(p):
-            '''assign : ID '=' STRING'''
-            p[0] = ('t_assignString',p[1],('t_string',p[3]))
+       # def p_assign_string(p):
+        #    '''assign : ID '=' STRING'''
+         #   p[0] = ('t_assignString',p[1],('t_string',p[3]))
+
         def p_assign(p):
             '''assign : ID '=' boolean'''
             p[0] = ('t_assign', p[1], p[3])
@@ -196,12 +198,12 @@ class SyntaxTree:
             else:
                 p[0] = ('plist',p[1])
         def p_pstat(p):
-            '''pstat : string
-                     | boolean'''
+            '''pstat : boolean'''
             p[0] = p[1]
-        def p_stat_str(p):
-            '''string : STRING'''
-            p[0] = ('t_string',p[1])
+            
+        #def p_stat_str(p):
+         #   '''string : STRING'''
+          #  p[0] = ('t_string',p[1])
 
 
         #Boolean
@@ -295,9 +297,9 @@ class SyntaxTree:
          'factor : NUMBER'
          p[0] = ('t_num',p[1])
 
-        #def p_factor_num(p):
-         #   'factor : STRING'
-          #  p[0] = ('t_string')
+        def p_factor_string(p):
+            'factor : STRING'
+            p[0] = ('t_string',p[1])
 
         def p_factor_expr(p):
             '''factor : '(' expression ')' '''

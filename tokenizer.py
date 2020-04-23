@@ -63,7 +63,7 @@ def t_NUMBER(t):
     return t
 
 def t_STRING(t):
-    r'"(.*)"'
+    r'"(.*?)"'
     return t
 
 def t_ID(t):
@@ -105,7 +105,7 @@ def test(data,lexer):
 data = '''
 var x
 var y = 0
-x = ( y>5 ) ? (5 : 4)
+x = ( y>5 ) ? ("z" : "k")
 out("The pattern by ACE:")
 for(var i=0,i<5,i++){
 s = ""
