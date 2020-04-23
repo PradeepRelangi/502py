@@ -22,6 +22,10 @@ def eval_statement(tree):
         eval_initializationString(tree)
     elif tree[0] == 't_init':
         eval_initialization(tree)
+    elif tree[0] == 't_assignString':
+        eval_assignString(tree)
+    elif tree[0] == 't_assign':
+        eval_assign(tree)
     elif tree[0] == 't_print':
         eval_print(tree)
     elif tree[0] == 't_if':
@@ -29,7 +33,13 @@ def eval_statement(tree):
     elif tree[0] == 't_while':
         eval_while(tree)
     elif tree[0] == 't_for':
-        eval_for(tree)
+        eval_for(tree,0)
+    elif tree[0] == 't_for_range':
+        eval_forRange(tree)
+    elif tree[0] == 't_increment':
+        eval_inc(tree)
+    elif tree[0] == 't_decrement':
+        eval_dec(tree)
 
 
 
@@ -46,6 +56,18 @@ def eval_initializationString(tree):
     variable_env[tree[1]] = tree[2][1][1:-1]
 
 def eval_initialization(tree):
+    global variable_env
+    if tree[2][0] == 't_or':
+        val = eval_or(tree[2])
+    elif tree[2][0] == 'boolean':
+        val = eval_boolean(tree[2])
+    variable_env[tree[1]] = val
+
+def eval_assignString(tree):
+    global variable_env
+    variable_env[tree[1]] = tree[2][1][1:-1]
+
+def eval_assign(tree):
     global variable_env
     if tree[2][0] == 't_or':
         val = eval_or(tree[2])
@@ -99,19 +121,44 @@ def eval_while(tree):
         pass
 
 #FOR
-def eval_for(tree):
-    if tree[0] == 't_for':
+def eval_for(tree,flag):
+    global variable_env
+    if flag==0:
         eval_initialization(tree[1])
-        b = False
-        if tree[1][0] == 't_or':
-            b = eval_or(tree[1])
-        elif tree[1][0] == 'boolean':
-            b = eval_boolean(tree[1])
-        if b:
-            eval_block[tree[4]]
-            # should call unary and assign
-    elif tree[0] == 't_for_range':
+    b = False
+    if tree[2][0] == 't_or':
+        b = eval_or(tree[2])
+    elif tree[2][0] == 'boolean':
+        b = eval_boolean(tree[2])
+    if b:
+        eval_block(tree[4])
+        # should call unary and assign
+        eval_statement(tree[3])
+        eval_for(tree,1)
+
+def eval_forRange(tree):
+    global variable_env
+    id = tree[1]
+    val1 = eval_expression(('t_expression',tree[2]))
+    val2 = eval_expression(('t_expression',tree[3]))
+    for i in range(int(val1),int(val2)):
+        variable_env[id] = i
+        eval_block(tree[4])
         
+
+#UNARY
+def eval_inc(tree):
+    global variable_env
+    val = eval_id(tree[1])
+    if not isinstance(val,int):
+        sys.exit("Error : "+ tree[1][1]+" is not integer and cannot perform increment")
+    variable_env[tree[1][1]] = val+1
+def eval_dec(tree):
+    global variable_env
+    val = eval_id(tree[1])
+    if not isinstance(val,int):
+        sys.exit("Error : "+ tree[1][1]+" is not integer and cannot perform increment")
+    variable_env[tree[1][1]] = val-1
 
 
 #PRINT
@@ -119,14 +166,19 @@ def eval_print(tree):
     s = eval_plist(tree[1])
     print(s)
 def eval_plist(tree):
-    s = eval_pstat(tree[1])
+    s = str(eval_pstat(tree[1]))
     if len(tree)==3:
         s+=eval_plist(tree[2])
     return s
 def eval_pstat(tree):
     if tree[0]=='t_string':
         return tree[1][1:-1]
-    pass
+    else:
+        if tree[0] == 't_or':
+            val = eval_or(tree)
+        elif tree[0] == 'boolean':
+            val = eval_boolean(tree)
+        return val
 
 
 def eval_or(tree):
@@ -320,10 +372,7 @@ def eval_term(tree):
 
 def eval_id(tree):
     global variable_env
-    if tree[1] not in variable_env.keys():
-        sys.exit("variable "+tree[1]+" doesn't exist")
-    else:
-        return variable_env[tree[1]]
+    return lookup(tree[1])
 def eval_num(tree):
     return tree[1]
 
@@ -336,7 +385,12 @@ def eval_para(tree):
         val = eval_expr(tree[1])
     return val
 
-
+def lookup(x):
+    global variable_env
+    if x not in variable_env.keys():
+        sys.exit("Error : variable "+x+" doesn't exist")
+    else:
+        return variable_env[x]
 
 
 
@@ -345,6 +399,7 @@ var z = 3
 var ass = 3
 var x = (6+4*6)/6
 var y = false
+out("value of z: ",z)
 out("hello")
 if y{
 out("success ")
@@ -354,6 +409,9 @@ out("success elif")
 }
 elif z!=x{
 out("else")
+}
+for i in range(z+x,z+x+x){
+out(i)
 }
 '''
 builder = SyntaxTree()
