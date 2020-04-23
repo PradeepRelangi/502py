@@ -115,7 +115,7 @@ class SyntaxTree:
         #Assign
         def p_assign_string(p):
             '''assign : ID '=' STRING'''
-            p[0] = ('t_assign',p[1],('t_string',p[3]))
+            p[0] = ('t_assignString',p[1],('t_string',p[3]))
         def p_assign(p):
             '''assign : ID '=' boolean'''
             p[0] = ('t_assign', p[1], p[3])
@@ -132,10 +132,10 @@ class SyntaxTree:
             p[0] = p[1]
         def p_increment(p):
             '''increment : ID INCRMNT'''
-            p[0] = ('t_increment', p[1])
+            p[0] = ('t_increment', ('t_id',p[1]))
         def p_decrement(p):
             '''decrement : ID DECRMNT'''
-            p[0] = ('t_decrmnt', p[1])
+            p[0] = ('t_decremnt', ('t_id',p[1]))
 
 
 
@@ -174,12 +174,12 @@ class SyntaxTree:
 
 
         def p_for(p):
-            '''for : FOR '(' initialization ';' boolean ';' assign ')' '{' block '}'
-                   | FOR '(' initialization ';' boolean ';' unary ')' '{' block '}'
+            '''for : FOR '(' initialization ',' boolean ',' assign ')' '{' block '}'
+                   | FOR '(' initialization ',' boolean ',' unary ')' '{' block '}'
                    | FOR ID IN RANGE '(' expression ',' expression ')' '{' block '}' '''
-            if len(p)== 10:
+            if len(p)== 12:
                 p[0] = ('t_for',p[3],p[5],p[7],p[10])
-            elif len(p)== 12:
+            elif len(p)== 13:
                 p[0] = ('t_for_range',p[2],p[6],p[8],p[11])
 
 
@@ -242,10 +242,10 @@ class SyntaxTree:
 
         #condition
         def p_condition_gt(p):
-            '''condition : expression '<' expression'''
+            '''condition : expression '>' expression'''
             p[0] = ('t_gt',p[1],p[3])
         def p_condition_lt(p):
-            '''condition : expression '>' expression'''
+            '''condition : expression '<' expression'''
             p[0] = ('t_lt',p[1],p[3])
         def p_condition_gtEql(p):
             '''condition : expression GTEQL expression'''
