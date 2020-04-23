@@ -26,7 +26,10 @@ def eval_statement(tree):
         eval_print(tree)
     elif tree[0] == 't_if':
         eval_if(tree)
-
+    elif tree[0] == 't_while':
+        eval_while(tree)
+    elif tree[0] == 't_for':
+        eval_for(tree)
 
 
 
@@ -81,10 +84,34 @@ def eval_elif(tree):
     else:
         pass
 
+#WHILE
+def eval_while(tree):
+    b = False
+    if tree[1][0] == 't_or':
+        b = eval_or(tree[1])
+    elif tree[1][0] == 'boolean':
+        b = eval_boolean(tree[1])
+    if b:
+        eval_block(tree[2])
+        eval_while(tree)
+        # verify the tree passed in recursion
+    else:
+        pass
 
-
-
-
+#FOR
+def eval_for(tree):
+    if tree[0] == 't_for':
+        eval_initialization(tree[1])
+        b = False
+        if tree[1][0] == 't_or':
+            b = eval_or(tree[1])
+        elif tree[1][0] == 'boolean':
+            b = eval_boolean(tree[1])
+        if b:
+            eval_block[tree[4]]
+            # should call unary and assign
+    elif tree[0] == 't_for_range':
+        
 
 
 #PRINT
