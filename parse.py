@@ -120,10 +120,10 @@ class SyntaxTree:
 
         def p_assign(p):
             '''assign : ID '=' boolean'''
-            p[0] = ('t_assign', p[1], p[3])
+            p[0] = ('t_assign', p[1], p[3],p.lineno(2))
         def p_assign_funcall(p):
             '''assign : ID '=' funcall'''
-            p[0] = ('t_assign', p[1], p[3])
+            p[0] = ('t_assign', p[1], p[3],p.lineno(2))
 
 
 
@@ -134,10 +134,10 @@ class SyntaxTree:
             p[0] = p[1]
         def p_increment(p):
             '''increment : ID INCRMNT'''
-            p[0] = ('t_increment', ('t_id',p[1]))
+            p[0] = ('t_increment', ('t_id',p[1]),p.lineno(2))
         def p_decrement(p):
             '''decrement : ID DECRMNT'''
-            p[0] = ('t_decremnt', ('t_id',p[1]))
+            p[0] = ('t_decremnt', ('t_id',p[1]),p.lineno(2))
 
 
 
@@ -153,12 +153,12 @@ class SyntaxTree:
         #IF
         def p_if(p):
             '''if : IF  boolean  '{'  block  '}'  elif '''
-            p[0] = ('t_if',p[2],p[4],p[6])
+            p[0] = ('t_if',p[2],p[4],p[6],p.lineno(1))
 
         def p_elif(p):
             '''elif : ELSEIF  boolean  '{'  block  '}'  elif '''
             if len(p) == 7:
-                p[0] = ('t_elif',p[2],p[4],p[6])
+                p[0] = ('t_elif',p[2],p[4],p[6],p.lineno(1))
 
         def p_else(p):
             '''elif : ELSE  '{'  block  '}'
@@ -209,19 +209,19 @@ class SyntaxTree:
         #Boolean
         def p_boolean_or(p):
             '''boolean : boolean OR boolterm'''
-            p[0] = ('t_or',p[1],p[3])
+            p[0] = ('t_or',p[1],p[3],p.lineno(2))
         def p_boolean(p):
             '''boolean : boolterm'''
             p[0] = ('boolean',p[1])
         def p_boolean_and(p):
             '''boolterm : boolterm AND boolterm1'''
-            p[0] = ('t_and',p[1],p[3])
+            p[0] = ('t_and',p[1],p[3],p.lineno(2))
         def p_boolterm(p):
             '''boolterm : boolterm1'''
             p[0] = ('boolterm',p[1])
         def p_boolean_not(p):
             '''boolterm1 : '!' boolterm2'''
-            p[0] = ('t_not',p[2])
+            p[0] = ('t_not',p[2],p.lineno(1))
         def p_boolterm1(p):
             '''boolterm1 : boolterm2'''
             p[0] = ('boolterm1',p[1])
@@ -267,11 +267,11 @@ class SyntaxTree:
         #Expressions
         def p_expression_plus(p):
             '''expression : expression '+' term'''
-            p[0] = ('t_plus',p[1],p[3])
+            p[0] = ('t_plus',p[1],p[3],p.lineno(2))
 
         def p_expression_minus(p):
             '''expression : expression '-' term'''
-            p[0] = ('t_minus',p[1],p[3])
+            p[0] = ('t_minus',p[1],p[3],p.lineno(2))
 
         def p_expression_term(p):
             '''expression : term'''
@@ -279,11 +279,11 @@ class SyntaxTree:
 
         def p_term_times(p):
             '''term : term '*' factor'''
-            p[0] = ('t_multi',p[1],p[3])
+            p[0] = ('t_multi',p[1],p[3],p.lineno(2))
 
         def p_term_div(p):
             '''term : term '/' factor'''
-            p[0] = ('t_div',p[1] ,p[3])
+            p[0] = ('t_div',p[1] ,p[3],p.lineno(2))
 
         def p_term_factor(p):
             'term : factor'
