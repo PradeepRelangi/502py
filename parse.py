@@ -200,7 +200,7 @@ class SyntaxTree:
         def p_pstat(p):
             '''pstat : boolean'''
             p[0] = p[1]
-            
+
         #def p_stat_str(p):
          #   '''string : STRING'''
           #  p[0] = ('t_string',p[1])

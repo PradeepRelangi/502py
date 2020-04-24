@@ -302,7 +302,10 @@ def eval_plus(tree):
         val2 = eval_div(tree[2])
     elif tree[2][0]== 'term':
         val2 = eval_term(tree[2])
-    return val1+val2
+    if isinstance(val1,str) and isinstance(val2,str) or isinstance(val1,int) and isinstance(val2,int):
+        return val1+val2
+    else:
+        sys.exit(" '+' supports only both strings and both integers")
 
 def eval_minus(tree):
     if tree[1][0]== 't_plus':
@@ -318,6 +321,8 @@ def eval_minus(tree):
         val2 = eval_div(tree[2])
     elif tree[2][0]== 'term':
         val2 = eval_term(tree[2])
+    if not(isinstance(val1,int) and isinstance(val2,int)):
+        sys.exit(" '-' operator only supports integers")
     return val1-val2
 
 def eval_expr(tree):
@@ -347,7 +352,8 @@ def eval_multi(tree):
         val2 = eval_para(tree[2])
     elif tree[2][0] == 't_ternary':
         val2 = eval_ternary(tree[2])
-
+    if not(isinstance(val1,int) and isinstance(val2,int)):
+        sys.exit(" '*' operator only supports integers")
     return val1*val2
 
 
@@ -369,6 +375,8 @@ def eval_div(tree):
         val2 = eval_para(tree[2])
     elif tree[2][0] == 't_ternary':
         val2 = eval_ternary(tree[2])
+    if not(isinstance(val1,int) and isinstance(val2,int)):
+        sys.exit(" '/' operator only supports integers")
     return val1/val2
 
 def eval_term(tree):
@@ -406,6 +414,8 @@ def eval_ternary(tree):
         val = eval_or(tree[1])
     elif tree[1][0] == 'boolean':
         val = eval_boolean(tree[1])
+    if isinstance(val,str):
+        sys.exit("string cannot do bool operations")
     if val:
         if tree[2][0] == 't_or':
             val1 = eval_or(tree[2])
@@ -432,14 +442,14 @@ data = '''
 var x
 var y = 4
 var z = "*"
-var k = "&" + "*"
+var k = "&" + ""
 out("hi how are you: ",k," hello")
 var x = ( y>5 ) ? ( z : k )
 out("The pattern by ACE:")
 for(var i=0,i<5,i++){
 s = ""
 for(var j=0,j<5,j++){
-s=s+x
+s=s+"("
 }
 out(s)
 }
