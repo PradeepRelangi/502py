@@ -193,7 +193,8 @@ def eval_or(tree):
         val2 = eval_and(tree[2])
     elif tree[2][0] == 'boolterm':
         val2 = eval_boolterm(tree[2])
-
+    if isinstance(val1,str) or isinstance(val2,str):
+        sys.exit("'||' operator doesn't support strings")
     return val1 or val2
 
 
@@ -216,6 +217,8 @@ def eval_and(tree):
         val2 = eval_not(tree[2])
     elif tree[2][0] == 'boolterm1':
         val2 = eval_boolterm1(tree[2])
+    if isinstance(val1,str) or isinstance(val2,str):
+        sys.exit("'&&' operator doesn't support strings")
     return val1 and val2
 
 
@@ -235,6 +238,8 @@ def eval_not(tree):
         val = eval_expression(tree[1])
     elif tree[1][0] == 't_boolvalue':
         val = eval_boolvalue(tree[1])
+    if isinstance(val,str):
+        sys.exit(" '!' operator doesn't support strings ")
     return not(val)
 
 def eval_boolterm1(tree):

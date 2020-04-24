@@ -291,7 +291,7 @@ class SyntaxTree:
 
         def p_factor_id(p):
          'factor : ID'
-         p[0] = ('t_id',p[1])
+         p[0] = ('t_id',p[1],p.lineno(1))
 
         def p_factor_num(p):
          'factor : NUMBER'
