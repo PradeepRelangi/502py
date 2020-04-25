@@ -53,19 +53,20 @@ class SyntaxTree:
             '''function : FUNCTION  ID  '('  argument  ')'  '{'  block  RETURN  boolean  '}'
                     | FUNCTION ID '(' argument ')' '{' block RETURN '}' '''
             if len(p) == 11:
-                p[0] = ('t_def', p[2], p[4],p[7],p[9])
+                p[0] = ('t_defR', p[2], p[4],p[7],p[9])
             else:
                 p[0] = ('t_def', p[2],p[4],p[7])
         def p_argument(p):
             '''argument : ID  ','  argument
                         | ID'''
             if len(p) == 3:
-                p[0] = ('t_argument', p[1], p[2])
+                p[0] = ('t_arguments', p[1], p[3],p.lineno(1))
             else:
-                p[0] = ('t_argument', p[1])
+                p[0] = ('t_argument', p[1],p.lineno(1))
 
         def p_argument_emp(p):
             '''argument : empty'''
+            p[0] = ('t_empty')
 
         def p_empty(p):
             ''' empty : '''
@@ -121,9 +122,9 @@ class SyntaxTree:
         def p_assign(p):
             '''assign : ID '=' boolean'''
             p[0] = ('t_assign', p[1], p[3],p.lineno(2))
-        def p_assign_funcall(p):
-            '''assign : ID '=' funcall'''
-            p[0] = ('t_assign', p[1], p[3],p.lineno(2))
+        #def p_assign_funcall(p):
+         #   '''assign : ID '=' funcall'''
+          #  p[0] = ('t_assign', p[1], p[3],p.lineno(2))
 
 
 
@@ -144,9 +145,20 @@ class SyntaxTree:
 
         #Funcall
         def p_funcall(p):
-            '''funcall : ID '(' argument ')' '''
-            p[0] = ('p_funcall',p[1])
+            '''funcall : ID '(' paramlist ')' '''
+            p[0] = ('t_funcall',p[1],p[3],p.lineno(2))
 
+        def p_paramlist(p):
+            '''paramlist : boolean ',' paramlist
+                         | boolean'''
+            if len(p)==4:
+                p[0] = ('t_params',p[1],p[3])
+            else:
+                p[0] = ('t_param',p[1])
+
+        def p_paramEmpty(p):
+            '''paramlist : empty'''
+            p[0] = ('t_empty')
 
 
 
@@ -180,9 +192,9 @@ class SyntaxTree:
                    | FOR '(' initialization ',' boolean ',' unary ')' '{' block '}'
                    | FOR ID IN RANGE '(' expression ',' expression ')' '{' block '}' '''
             if len(p)== 12:
-                p[0] = ('t_for',p[3],p[5],p[7],p[10])
+                p[0] = ('t_for',p[3],p[5],p[7],p[10],p.lineno(6))
             elif len(p)== 13:
-                p[0] = ('t_for_range',p[2],p[6],p[8],p[11])
+                p[0] = ('t_for_range',p[2],p[6],p[8],p[11],p.lineno(7))
 
 
 
@@ -245,22 +257,22 @@ class SyntaxTree:
         #condition
         def p_condition_gt(p):
             '''condition : expression '>' expression'''
-            p[0] = ('t_gt',p[1],p[3])
+            p[0] = ('t_gt',p[1],p[3],p.lineno(2))
         def p_condition_lt(p):
             '''condition : expression '<' expression'''
-            p[0] = ('t_lt',p[1],p[3])
+            p[0] = ('t_lt',p[1],p[3],p.lineno(2))
         def p_condition_gtEql(p):
             '''condition : expression GTEQL expression'''
-            p[0] = ('t_gtEql',p[1],p[3])
+            p[0] = ('t_gtEql',p[1],p[3],p.lineno(2))
         def p_condition_ltEql(p):
             '''condition : expression LTEQL expression'''
-            p[0] = ('t_ltEql',p[1],p[3])
+            p[0] = ('t_ltEql',p[1],p[3],p.lineno(2))
         def p_condition_notEql(p):
             '''condition : expression NOTEQL expression'''
-            p[0] = ('t_notEql',p[1],p[3])
+            p[0] = ('t_notEql',p[1],p[3],p.lineno(2))
         def p_condition_bEql(p):
             '''condition : expression BOOLEQL expression'''
-            p[0] = ('t_bEql',p[1],p[3])
+            p[0] = ('t_bEql',p[1],p[3],p.lineno(2))
 
 
 
@@ -310,8 +322,11 @@ class SyntaxTree:
             p[0] = p[1]
         def p_ternay(p):
             '''ternary : '('  boolean  ')'  '?'  '('  boolean  ':'  boolean ')' '''
-            p[0] = ('t_ternary',p[2],p[6],p[8])
+            p[0] = ('t_ternary',p[2],p[6],p[8],p.lineno(1))
 
+        def p_factor_funcall(p):
+            '''factor : funcall'''
+            p[0] = p[1]
 
         # Error rule for syntax errors
         def p_error(p):
