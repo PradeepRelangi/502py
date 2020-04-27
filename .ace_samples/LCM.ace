@@ -1,0 +1,23 @@
+fun compute_lcm(x, y){
+   var greater
+   var lcm
+   # choose the greater number
+   if (x > y){
+       greater = x }
+   else{
+       greater = y
+        }
+
+   while(True){
+       if((greater % x == 0) && (greater % y == 0)){
+           lcm = greater
+           }
+       greater += 1
+
+   send lcm
+}
+num1 = 54
+num2 = 24
+var res
+res=compute_lcm(num1, num2)
+out(res,"is the L.C.M.")

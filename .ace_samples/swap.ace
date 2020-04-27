@@ -1,0 +1,9 @@
+var num1 = 789
+var num2 = 456
+var temp
+temp = num1
+num1 = num2
+num2 = temp
+out(num1)
+out("	")
+out(num2)

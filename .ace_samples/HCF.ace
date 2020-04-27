@@ -1,0 +1,23 @@
+fun compute_hcf(x, y){
+var smaller
+# choose the smaller number
+if (x > y){
+  smaller = y
+}
+else {
+smaller = x
+}
+for(i=1;i<=smaller+1;i++){
+        
+if((x % i == 0) && (y % i == 0)){
+            hcf = i 
+}
+}
+    send hcf
+}
+
+num1 = 54 
+num2 = 24
+var res
+res = compute_hcf(num1, num2)
+print(res," is H.C.F." )

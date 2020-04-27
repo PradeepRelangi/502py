@@ -1,0 +1,19 @@
+var n = 101
+var reversedN = 0
+var remainder
+var originalN
+    
+    originalN = n
+
+    // reversed integer is stored in reversedN
+    while (n != 0) {
+        remainder = n % 10
+        reversedN = reversedN * 10 + remainder
+        n /= 10
+    }
+
+    // palindrome if orignalN and reversedN are equal
+    if (originalN == reversedN)
+        out("101 is a palindrome.")
+    else
+        out("101 is not a palindrome.")

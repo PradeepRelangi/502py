@@ -1,0 +1,11 @@
+
+    var num=8
+   
+    if (num <= 0) {
+        if (num == 0)
+            out("You entered 0.")
+        else
+            out("You entered a negative number.")
+    } else
+        out("You entered a positive number.")
+   

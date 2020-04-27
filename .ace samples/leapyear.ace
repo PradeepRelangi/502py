@@ -1,0 +1,14 @@
+
+    var year =2020
+    
+    if (year % 4 == 0) {
+        if (year % 100 == 0) {
+            // the year is a leap year if it is divisible by 400.
+            if (year % 400 == 0)
+                out("2020 is a leap year.")
+            else
+                out("2020 is not a leap year.")
+        } else
+            out("2020 is a leap year.")
+    } else
+        out("2020 is not a leap year.")

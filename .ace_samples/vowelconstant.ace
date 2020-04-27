@@ -1,0 +1,26 @@
+
+
+    var c= "a"
+    var lowercase
+    var uppercase
+    
+    // evaluates to 1 if variable c is lowercase
+    if(c == "a" || c == "e" || c == "i" || c == "o" || c == "u")
+    {
+    lowercase = 1
+    }
+    // evaluates to 1 if variable c is uppercase
+    if(c == "A" || c == "E" || c == "I" || c == "O" || c == "U")
+    {
+    uppercase = 1 
+    }
+
+    // evaluates to 1 if c is either lowercase or uppercase
+    if (lowercase or uppercase)
+    {
+        out("c is a vowel.")
+    }
+    else
+    {
+        out("c is a consonant.")
+    }

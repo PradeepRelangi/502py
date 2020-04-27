@@ -1,0 +1,8 @@
+fun evenodd(n){
+	if n % 2 == 0{
+		out("even")}
+	else{
+		out("odd")}
+}
+var k = evenodd(5)
+out(k)

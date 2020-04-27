@@ -1,0 +1,21 @@
+var num = 898
+var originalNum
+var remainder
+var result = 0
+    
+originalNum = num
+
+while (originalNum != 0) {
+        // remainder contains the last digit
+     remainder = originalNum % 10
+        
+     result  =result + remainder * remainder * remainder
+        
+        // removing last digit from the orignal number
+        originalNum /= 10
+    }
+
+    if (result == num)
+        out(num,"is an Armstrong number.")
+    else
+        printf(num,"is not an Armstrong number.")

@@ -1,0 +1,9 @@
+ var n = 8
+ var i
+ var sum = 0
+
+    for (i = 1; i <= n; ++i) {
+        sum = sum + i
+    }
+
+    out(sum)

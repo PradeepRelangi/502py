@@ -1,0 +1,12 @@
+ var n1=5
+ var n2=8
+ var n3=2
+
+    if (n1 >= n2 && n1 >= n3)
+        out("n1 is the largest number.")
+    if (n2 >= n1 && n2 >= n3)
+        printf("n2 is the largest number.")
+    if (n3 >= n1 && n3 >= n2)
+        printf("n3 is the largest number.")
+
+    

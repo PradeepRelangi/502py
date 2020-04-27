@@ -1,0 +1,8 @@
+var divisor = 5
+var dividend = 27
+var quotient
+var reminder
+quotient = dividend//divisor
+reminder = dividend % divisor
+out(quotient,"is Quotient")
+out(reminder,"is Reminder")

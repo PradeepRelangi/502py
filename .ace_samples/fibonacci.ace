@@ -1,0 +1,17 @@
+fun fibonacci(k) 
+	var n = k
+	var t1 = 0
+	var t2 = 1
+	var nextTerm
+    
+    
+    	out("Fibonacci Series:")
+
+    	for (i = 1; i <= n; i++) {
+        	out(t1);
+        	nextTerm = t1 + t2;
+        	t1 = t2;
+        	t2 = nextTerm;
+    	}
+var num = 12
+fibonacci(num)
